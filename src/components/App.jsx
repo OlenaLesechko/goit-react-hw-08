@@ -8,6 +8,8 @@ import Loader from './Loader/Loader';
 
 import { Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import RestrictedRoute from './RestrictedRoute/RestrictedRoute';
+import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 
 const Home = lazy(() => import('../pages/Home'));
 const Contacts = lazy(() => import('../pages/Contacts'));
@@ -33,9 +35,27 @@ export default function App() {
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Registration />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/contacts" element={<Contacts />} />
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute
+                  component={<Registration />}
+                  redirectTo="/contacts"
+                />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute component={<Login />} redirectTo="/contacts" />
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <PrivateRoute component={<Contacts />} redirectTo="/login" />
+              }
+            />
           </Routes>
         </Suspense>
       )}
