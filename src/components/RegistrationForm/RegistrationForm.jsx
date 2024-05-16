@@ -4,6 +4,7 @@ import { useId } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import * as Yup from 'yup';
+import { Button } from '@mui/material';
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 const RegistrationSchema = Yup.object().shape({
@@ -18,9 +19,9 @@ const RegistrationSchema = Yup.object().shape({
         'Please create a stronger password. Min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit',
     })
     .required('Required'),
-    /* confirmPassword: Yup.string()
+    confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Required'), */
+    .required('Required'), 
 });
 
 const initialValues = {
@@ -77,9 +78,9 @@ export default function RegistrationForm() {
                 placeholder="password"
                 id={passwordFieldId}
                 />
-                <button type="submit" className={css.btn}>
-                Create your account
-                </button>
+                <Button variant="contained" type="submit" className={css.btn}>
+                    Create your account
+                </Button>
             </Form>
         </Formik>
     );
