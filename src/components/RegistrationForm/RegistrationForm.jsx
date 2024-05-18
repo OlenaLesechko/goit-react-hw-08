@@ -4,7 +4,7 @@ import { useId } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import * as Yup from 'yup';
-import { Button } from '@mui/material';
+import Button  from '@mui/material';
 
 const userSchema = Yup.object({
     name: Yup.string()
