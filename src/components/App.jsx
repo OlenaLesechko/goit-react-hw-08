@@ -9,7 +9,7 @@ import Loader from './Loader/Loader';
 import { Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import RestrictedRoute from './RestrictedRoute/RestrictedRoute';
-import { PrivateRoute } from './PrivateRoute/PrivateRoute';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
 
 const Home = lazy(() => import('../pages/Home'));
 const Contacts = lazy(() => import('../pages/Contacts'));
@@ -61,9 +61,10 @@ export default function App() {
       )}
       <Toaster />
     </Layout>
+    
   );
 }
-
+console.log(Layout)
       /* <Title />
       <ContactForm />
       <SearchBar />
