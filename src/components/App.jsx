@@ -64,7 +64,6 @@ export default function App() {
     
   );
 }
-console.log(Layout)
       /* <Title />
       <ContactForm />
       <SearchBar />
