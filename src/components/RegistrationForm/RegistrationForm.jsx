@@ -6,7 +6,12 @@ import { register } from '../../redux/auth/operations';
 import * as Yup from 'yup';
 import { Button } from '@mui/material';
 
-const validationSchema = Yup.object({
+const userSchema = Yup.object({
+    name: Yup.string()
+        .min(3, 'Must be at least 3 characters')
+        .max(50, 'Name is too long')
+        .required('Name is required')
+        .trim(),
     email: Yup.string('Enter your email')
         .email('Please, enter a valid email')
         .required('Email is required'),
@@ -39,8 +44,8 @@ export default function RegistrationForm() {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}
+            onSubmit={handleSubmit} 
+            validationSchema={userSchema}
 
     >
             <Form className={css.form} autoComplete='off'>
