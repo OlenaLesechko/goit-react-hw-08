@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './LoginForm.module.css';
 import { useId } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,12 +6,11 @@ import { login } from '../../redux/auth/operations';
 import * as Yup from 'yup';
 import { Button } from '@mui/material';
 
-const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Please, enter a valid email').required('Required'),
+    email: Yup.string().email('Please, enter a valid email').required('Email is required'),
     password: Yup.string()
-    .matches(passwordRules, { message: 'Invalid password' })
-    .required('Required'),
+        .min(6, 'Password should be of minimum 6 characters length')
+        .required('Password is required')
 });
 
 const initialValues = {
@@ -45,7 +44,8 @@ export default function LoginForm() {
             name="email"
             placeholder="Email"
             id={emailFieldId}
-            />
+                />
+                <ErrorMessage name="email" />
             <label htmlFor={passwordFieldId} className={css.label}>
                 password
                 </label>
@@ -55,7 +55,8 @@ export default function LoginForm() {
             name="password"
             placeholder="password"
             id={passwordFieldId}
-            />
+                />
+                <ErrorMessage name="password" />
             <Button variant="contained" type="submit" className={css.btn}>
                 Log In
             </Button>

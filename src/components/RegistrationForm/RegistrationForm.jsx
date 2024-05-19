@@ -1,27 +1,16 @@
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './RegistrationForm.module.css';
-import { useId } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 
-const userSchema = Yup.object({
-    name: Yup.string()
-        .min(3, 'Must be at least 3 characters')
-        .max(50, 'Name is too long')
-        .required('Name is required')
-        .trim(),
-    email: Yup.string('Enter your email')
-        .email('Please, enter a valid email')
-        .required('Email is required'),
-    password: Yup.string('Enter your password')
-        .min(8, 'Please, create a stronger password. Password should be of minimum 8 characters length')
-        .required('Password is required'),
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Required'),
+const RegisterSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
 });
+
 
 
 const initialValues = {
@@ -30,7 +19,43 @@ const initialValues = {
     password: '',
 };
 
-export default function RegistrationForm() {
+const RegisterForm = () => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = (values, { setSubmitting }) => {
+        dispatch(register(values));
+        setSubmitting(false);
+    };
+
+    return (
+        <Formik
+        initialValues={initialValues}
+        validationSchema={RegisterSchema}
+        onSubmit={handleSubmit}
+        >
+        {({ isSubmitting }) => (
+            <Form className={css.form}>
+            <label htmlFor="name" className={css.label}>Name</label>
+            <Field name="name" type="text" className={css.field} />
+            <ErrorMessage name="name" component="div"  />
+
+            <label htmlFor="email" className={css.label}>Email</label>
+            <Field name="email" type="email" className={css.field} />
+            <ErrorMessage name="email" component="div" />
+
+            <label htmlFor="password" className={css.label}>Password</label>
+            <Field name="password" type="password" className={css.field} />
+            <ErrorMessage name="password" component="div" />
+
+            <Button type="submit" disabled={isSubmitting} className={css.btn}>Register</Button>
+            </Form>
+        )}
+        </Formik>
+    );
+};
+
+export default RegisterForm;
+/* export default function RegistrationForm() {
     const dispatch = useDispatch();
     const emailFieldId = useId();
     const passwordFieldId = useId();
@@ -59,6 +84,7 @@ export default function RegistrationForm() {
                 placeholder="Your Name"
                 id={nameFieldId}
                 />
+                <ErrorMessage name="name" />
                 <label htmlFor={emailFieldId} className={css.label}>
                     email
                 </label>
@@ -69,6 +95,7 @@ export default function RegistrationForm() {
                 placeholder="Email"
                 id={emailFieldId}
                 />
+                <ErrorMessage name="email" />
                 <label htmlFor={passwordFieldId} className={css.label}>
                     password
                 </label>
@@ -79,10 +106,11 @@ export default function RegistrationForm() {
                 placeholder="password"
                 id={passwordFieldId}
                 />
+                <ErrorMessage name="password" />
                 <Button variant="contained" type="submit" className={css.btn}>
                     Create your account
                 </Button>
             </Form>
         </Formik>
     );
-}
+}  */
