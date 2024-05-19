@@ -21,11 +21,19 @@ const initialValues = {
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
+    const handleSubmit = async (values, actions) => {
+    try {
+        await dispatch(register(values)).unwrap();
+        actions.resetForm();
+    } catch (error) {
+        console.error("Registration failed:", error);
+    }
+};
 
-    const handleSubmit = (values, { setSubmitting }) => {
+   /*  const handleSubmit = (values, { setSubmitting }) => {
         dispatch(register(values));
         setSubmitting(false);
-    };
+    }; */
 
     return (
         <Formik
