@@ -19,10 +19,7 @@ const Registration = lazy(() => import('../pages/Registration'));
 export default function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
   const dispatch = useDispatch();
-  /* const contacts = useSelector(selectContacts);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
- */
+
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
@@ -38,23 +35,26 @@ export default function App() {
             <Route
               path="/register"
               element={
-                <RestrictedRoute
-                  component={<Registration />}
-                  redirectTo="/contacts"
-                />
+                <RestrictedRoute redirectTo="/contacts">
+                    <Registration />
+                </RestrictedRoute>
+          
               }
             />
             <Route
               path="/login"
               element={
-                <RestrictedRoute component={<Login />} redirectTo="/contacts" />
+                <RestrictedRoute redirectTo="/contacts">
+                  <Login />
+                </RestrictedRoute>
               }
             />
             <Route
               path="/contacts"
-              element={
-                <PrivateRoute component={<Contacts />} redirectTo="/login" />
-              }
+                element={
+                  <PrivateRoute redirectTo="/login">
+                    <Contacts />
+                  </PrivateRoute>}
             />
           </Routes>
         </Suspense>
